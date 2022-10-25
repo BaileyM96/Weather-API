@@ -3,3 +3,6 @@
     margin: 0;
 }
 
+.col {
+   align-content: flex-start;
+}
