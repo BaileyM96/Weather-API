@@ -1,21 +1,23 @@
 //set up variables to access DOM
+var momentDate = moment().format("MMM Do YY");
+$("#city-name").text(momentDate); //Need to add container for HTML for date
 var citySearch = $("#city-lists");
 var searchBtn = document.getElementById("btn btn-outline");
-var currentForecast = document.getElementById("The-weather");
+var currentForecast = document.querySelector("#The-weather");
 var weekForecast = document.getElementById("5-dayForecast");
-var cityEl = document.getElementById("city-name");
 var apiKey ='6fd2a7e7bfa6dd9234d5df15d716d7d3';
+var cityName = document.querySelector("#city-name");
 var cityList = [];
+var weatherInfoEl = document.querySelector(".weather-info");
 
-//add weather attributes
 
 
-//create buttons  when webpage reloads
 searchBtn.addEventListener("click", function(e){
     e.preventDefault();
     console.log('Hello World');
 });
-// THEN I am presented with current and future conditions for that city and that city is added to the search history
+
+
 function getCityConditions() {
     var city = "riverside";
     var geoAPI = "https://api.openweathermap.org/data/2.5/weather?q="+ city + "&appid=" + apiKey;
@@ -25,17 +27,28 @@ function getCityConditions() {
     })
     .then(function (data) {
         console.log(data);
+        var {temp} = data.main;
+        var place = data.name;
+        var {description, icon} = data.weather[0];
+        var {sunrise, sunset} =  data.sys;
+        var fahrenheit = (temp * 0.5)  / 5 + 32;
+        var sunrise = new Date(sunrise * 1000);
+        var sunset = new Date(sunset * 1000);
+        cityName.textContent = `${place}`;
+        weatherInfoEl.textContent = `${fahrenheit.toFixed(2)} °F`
+        // Need to fix the card body for current forecast
     })
+  
 }
 getCityConditions();
-// WHEN I view current weather conditions for that city
-// fetch(geoAPI)
-// .then(function (response) {
-//     return response.json();
-// })
-// .then(function (data) {
-//     console.log(data);
-// });
+
+//-----------------------------5 Day forecast--------------------------------------------------------------------------------------------------------------------------------------------------------
+function getFiveDayForecast() {
+    var town = "riverside"
+  var forecastWeather = "https://api.openweathermap.org/data/2.5/forecast?q="+ city + "&appid=" + apiKey;
+  console.log(forecastWeather);
+}
+getFiveDayForecast();
 
 //create button to access previous search and connect it to function
 // function createCityButton(index);
